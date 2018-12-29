@@ -1,6 +1,6 @@
 import { style } from "typestyle";
 
-export const cardStyle = style({
+export const cardClass = style({
   padding: '10px',
   overflow: 'hidden',
   position: 'absolute',
