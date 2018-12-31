@@ -4,6 +4,8 @@ import * as serviceWorker from './serviceWorker';
 import store from './store';
 import { BoardContainer } from './components/board/board-container';
 import { Provider } from 'react-redux';
+import './index.styles';
+import { forceRenderStyles } from 'typestyle';
 
 ReactDOM.render(
   <Provider store={store}>
@@ -11,6 +13,7 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root')
 );
+forceRenderStyles();
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

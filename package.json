@@ -10,6 +10,7 @@
     "@types/react-redux": "^6.0.11",
     "@types/redux-devtools": "^3.0.45",
     "@types/uuid": "^3.4.4",
+    "csstips": "^0.3.0",
     "csx": "^9.0.0",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
