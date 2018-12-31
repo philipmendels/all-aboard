@@ -1,18 +1,32 @@
 import React from "react";
-import { BoardProps } from "./board.types";
+import { BoardProps, BoardComponentState } from "./board.types";
 import { Card } from "../card/card";
 import { CardData } from "../../models/card";
 import { Vector } from "../../models/geom/vector.model";
 import { isSelectionKeyDown } from "../../util/util";
 import { boardStyles } from "./board.styles";
+import { Bounds } from "../../models/geom/bounds.model";
 
-export class Board extends React.Component<BoardProps> {
+export class Board extends React.Component<BoardProps, BoardComponentState> {
 
+  private marqueeStartLocation?: Vector;
   private isMouseDownOnCard = false;
   private isDraggingCard = false;
   private isMouseDownOnBoard = false;
 
+  public state = {
+    isDraggingMarquee: false,
+    marquee: new Bounds(0, 0, 0, 0)
+  }
+
   public render() {
+    const { marquee } = this.state;
+    const marqueeStyle = {
+      left: marquee.left() + 'px',
+      top: marquee.top() + 'px',
+      width: marquee.width() + 'px',
+      height: marquee.height() + 'px'
+    }
     const { cards } = this.props;
     return (
       <div
@@ -36,6 +50,7 @@ export class Board extends React.Component<BoardProps> {
             />
           ))
         }
+        {this.state.isDraggingMarquee && <div className={boardStyles.marqueeClass} style={marqueeStyle} />}
       </div>
     );
   }
@@ -43,7 +58,7 @@ export class Board extends React.Component<BoardProps> {
   private mouseDownOnBoard = (event: React.MouseEvent<HTMLDivElement>): void => {
     this.clearSelection();
     this.isMouseDownOnBoard = true;
-    // this.marqueeStartLocation = new Vector(event.clientX, event.clientY);
+    this.marqueeStartLocation = new Vector(event.clientX, event.clientY);
   }
 
   private mouseMoveOnBoard = (event: React.MouseEvent<HTMLDivElement>): void => {
@@ -52,15 +67,16 @@ export class Board extends React.Component<BoardProps> {
       this.isDraggingCard = true;
       this.props.moveCards(boardLocation);
     } else if (this.isMouseDownOnBoard) {
-      // this.setState({
-      //   isDraggingMarquee: true,
-      //   marquee: new Bounds(
-      //     Math.min(boardLocation.x, this.marqueeStartLocation.x),
-      //     Math.min(boardLocation.y, this.marqueeStartLocation.y),
-      //     Math.max(boardLocation.x, this.marqueeStartLocation.x),
-      //     Math.max(boardLocation.y, this.marqueeStartLocation.y)
-      //   )
-      // })
+      const start = this.marqueeStartLocation!;
+      this.setState({
+        isDraggingMarquee: true,
+        marquee: new Bounds(
+          Math.min(boardLocation.x, start.x),
+          Math.min(boardLocation.y, start.y),
+          Math.max(boardLocation.x, start.x),
+          Math.max(boardLocation.y, start.y)
+        )
+      })
     }
     // else if (this.isMouseDownOnTransformHandle) {
     //   this.props.onScaleCards(boardLocation);
@@ -68,16 +84,16 @@ export class Board extends React.Component<BoardProps> {
   }
 
   private mouseUpOnBoard = (event: React.MouseEvent<HTMLDivElement>): void => {
-    // if (this.state.isDraggingMarquee) {
-    //   const cardIdsToSelect = this.props.cards
-    //     .filter(card => {
-    //       const cardBounds = Bounds.fromRect(card.location, card.dimensions);
-    //       return cardBounds.intersectsBounds(this.state.marquee);
-    //     })
-    //     .map(card => card.id);
+    if (this.state.isDraggingMarquee) {
+      const cardIdsToSelect = this.props.cards
+        .filter(card => {
+          const cardBounds = Bounds.fromRect(Vector.fromData(card.location), Vector.fromData(card.dimensions));
+          return cardBounds.intersectsBounds(this.state.marquee);
+        })
+        .map(card => card.id);
 
-    //   this.props.onSelectCards(cardIdsToSelect);
-    // }
+      this.props.selectCards(cardIdsToSelect);
+    }
     this.clearMouseStates();
   }
 
@@ -148,6 +164,6 @@ export class Board extends React.Component<BoardProps> {
     this.isDraggingCard = false;
     this.isMouseDownOnBoard = false;
     // this.isMouseDownOnTransformHandle = false;
-    // this.setState({ isDraggingMarquee: false });
+    this.setState({ isDraggingMarquee: false });
   }
 }

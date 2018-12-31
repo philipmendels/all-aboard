@@ -1,6 +1,7 @@
 import { CardData } from "../../models/card";
 import { Vector } from "../../models/geom/vector.model";
 import { SelectedItem } from "../../models/selection";
+import { Bounds } from "../../models/geom/bounds.model";
 
 export type BoardStateProps = {
   cards: CardData[];
@@ -20,6 +21,11 @@ export type BoardDispatchProps = {
   deselectCard: (id: string) => void,
   clearSelection: () => void,
   // onReorder:(id:string, toIndex:number) => void
-}
+};
 
 export type BoardProps = BoardDispatchProps & BoardStateProps;
+
+export type BoardComponentState = {
+  isDraggingMarquee: boolean,
+  marquee: Bounds
+};

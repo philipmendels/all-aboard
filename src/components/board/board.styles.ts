@@ -8,6 +8,13 @@ const rootClass = style({
   outline: 'none'
 });
 
+const marqueeClass = style({
+  backgroundColor: 'transparent',
+  border: '1px dashed black',
+  position: 'absolute'
+});
+
 export const boardStyles = {
-  rootClass
+  rootClass,
+  marqueeClass,
 }
