@@ -24,16 +24,16 @@ export const cardsReducer: Reducer<CardsState, AppAction> = (prevState = initial
           [newCard.id]: newCard
         }
       }
-    // case 'REMOVE_CARDS':
-    //     const selectedIds = Object.keys(selectedItems);
-    //     const byId = { ...prevState.byId };
-    //     selectedIds.forEach(id => {
-    //         delete byId[id];
-    //     });
-    //     return {
-    //         allIds: prevState.allIds.filter(id => !selectedIds.includes(id)),
-    //         byId
-    //     }
+    case 'REMOVE_CARDS':
+        const selectedIds = Object.keys(action.selectedItems);
+        const byId = { ...prevState.byId };
+        selectedIds.forEach(id => {
+            delete byId[id];
+        });
+        return {
+            allIds: prevState.allIds.filter(id => !selectedIds.includes(id)),
+            byId
+        }
     case 'MOVE_CARDS':
       return {
         ...prevState,

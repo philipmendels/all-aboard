@@ -23,7 +23,7 @@ export class Board extends React.Component<BoardProps> {
         onMouseUp={this.mouseUpOnBoard}
         onMouseLeave={this.mouseLeaveBoard}
         onDoubleClick={this.dblclickBoard}
-      // onKeyDown={this.keyDownOnBoard}
+        onKeyDown={this.keyDownOnBoard}
       >
         {
           cards.map(card => (
@@ -61,7 +61,7 @@ export class Board extends React.Component<BoardProps> {
       //     Math.max(boardLocation.y, this.marqueeStartLocation.y)
       //   )
       // })
-    } 
+    }
     // else if (this.isMouseDownOnTransformHandle) {
     //   this.props.onScaleCards(boardLocation);
     // }
@@ -87,6 +87,15 @@ export class Board extends React.Component<BoardProps> {
 
   private dblclickBoard = (event: React.MouseEvent<HTMLDivElement>): void => {
     this.props.addCard(new Vector(event.clientX, event.clientY));
+  }
+
+  private keyDownOnBoard = (event: React.KeyboardEvent<HTMLDivElement>): void => {
+    if (event.keyCode === 8 || event.keyCode === 46) {
+      // backspace and delete
+      this.props.removeCards();
+      event.stopPropagation();
+      event.preventDefault();
+    }
   }
 
   private mouseDownOnCard = (event: React.MouseEvent<HTMLDivElement>, mouseDownCard: CardData): void => {

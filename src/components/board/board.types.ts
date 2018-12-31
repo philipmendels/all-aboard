@@ -11,7 +11,7 @@ export type BoardStateProps = {
 
 export type BoardDispatchProps = {
   addCard: (location: Vector) => void,
-  // onRemoveCards: () => void,
+  removeCards: () => void,
   startMoveCards: (location: Vector) => void,
   // onStartScaleCards: (transformHandle: TransformHandle) => void,
   moveCards: (location: Vector) => void,

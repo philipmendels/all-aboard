@@ -7,9 +7,10 @@ export type AddCardAction = {
   location: Vector
 }
 
-// export type RemoveCardsAction = {
-//   type: 'REMOVE_CARDS'
-// }
+export type RemoveCardsAction = {
+  type: 'REMOVE_CARDS',
+  selectedItems: SelectedItemsState
+}
 
 export type StartMoveCardsAction = {
   type: 'START_MOVE_CARDS',
@@ -55,6 +56,7 @@ export type ClearSelectionAction = {
 
 export type AppAction =
   AddCardAction |
+  RemoveCardsAction |
   SelectCardsAction |
   DeselectCardAction |
   ClearSelectionAction |
