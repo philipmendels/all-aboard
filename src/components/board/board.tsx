@@ -22,7 +22,7 @@ export class Board extends React.Component<BoardProps> {
         onMouseMove={this.mouseMoveOnBoard}
         onMouseUp={this.mouseUpOnBoard}
         onMouseLeave={this.mouseLeaveBoard}
-      // onDoubleClick={this.dblclickBoard}
+        onDoubleClick={this.dblclickBoard}
       // onKeyDown={this.keyDownOnBoard}
       >
         {
@@ -83,6 +83,10 @@ export class Board extends React.Component<BoardProps> {
 
   private mouseLeaveBoard = (event: React.MouseEvent<HTMLDivElement>): void => {
     this.clearMouseStates();
+  }
+
+  private dblclickBoard = (event: React.MouseEvent<HTMLDivElement>): void => {
+    this.props.addCard(new Vector(event.clientX, event.clientY));
   }
 
   private mouseDownOnCard = (event: React.MouseEvent<HTMLDivElement>, mouseDownCard: CardData): void => {

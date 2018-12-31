@@ -9,6 +9,7 @@
     "@types/react-dom": "^16.0.11",
     "@types/react-redux": "^6.0.11",
     "@types/redux-devtools": "^3.0.45",
+    "@types/uuid": "^3.4.4",
     "csx": "^9.0.0",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
@@ -17,7 +18,8 @@
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
     "typescript": "^3.2.2",
-    "typestyle": "^2.0.1"
+    "typestyle": "^2.0.1",
+    "uuid": "^3.3.2"
   },
   "scripts": {
     "start": "react-scripts start",

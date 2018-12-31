@@ -2,23 +2,28 @@ import { Reducer } from "redux";
 import { CardsState, initialCardsState, CardData } from "../models/card";
 import { AppAction } from "../actions/actions";
 import { MoveActionItemState } from "../models/selection";
+import { v4 } from "uuid";
+import { Vector } from "../models/geom/vector.model";
+import { randomText } from "../util/randomText";
+
+const defaultCardSize = new Vector(120, 90);
 
 export const cardsReducer: Reducer<CardsState, AppAction> = (prevState = initialCardsState, action) => {
   switch (action.type) {
-    // case 'AD_CARD':
-    //     const newCard = {
-    //         id: v4(),
-    //         text: randomText(),
-    //         location: action.location.subtract(defaultCardSize.multiply(0.5)),
-    //         dimensions: defaultCardSize.clone()
-    //     }
-    //     return {
-    //         allIds: [...prevState.allIds, newCard.id],
-    //         byId: {
-    //             ...prevState.byId,
-    //             [newCard.id]: newCard
-    //         }
-    //     }
+    case 'AD_CARD':
+      const newCard = {
+        id: v4(),
+        text: randomText(),
+        location: Vector.fromData(action.location).subtract(defaultCardSize.multiply(0.5)),
+        dimensions: defaultCardSize.clone()
+      }
+      return {
+        allIds: [...prevState.allIds, newCard.id],
+        byId: {
+          ...prevState.byId,
+          [newCard.id]: newCard
+        }
+      }
     // case 'REMOVE_CARDS':
     //     const selectedIds = Object.keys(selectedItems);
     //     const byId = { ...prevState.byId };

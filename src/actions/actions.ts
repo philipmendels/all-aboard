@@ -2,10 +2,10 @@ import { Vector } from "../models/geom/vector.model";
 import { SelectedItemsState } from "../models/selection";
 import { CardsState } from "../models/card";
 
-// export type AddCardAction = {
-//   type: 'AD_CARD',
-//   location: Vector
-// }
+export type AddCardAction = {
+  type: 'AD_CARD',
+  location: Vector
+}
 
 // export type RemoveCardsAction = {
 //   type: 'REMOVE_CARDS'
@@ -54,6 +54,7 @@ export type ClearSelectionAction = {
 }
 
 export type AppAction =
+  AddCardAction |
   SelectCardsAction |
   DeselectCardAction |
   ClearSelectionAction |

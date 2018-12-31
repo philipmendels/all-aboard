@@ -1,17 +1,17 @@
 import { Vector } from "../models/geom/vector.model";
 import { 
   StartMoveCardsAction, MoveCardsAction, SelectCardsAction, 
-  DeselectCardAction, ClearSelectionAction, AppAction 
+  DeselectCardAction, ClearSelectionAction, AppAction, AddCardAction 
 } from "./actions";
 import { ThunkAction } from 'redux-thunk';
 import { BoardState } from "../models/board";
 
 type TypedThunkAction<A extends AppAction> = ThunkAction<A, BoardState, null, AppAction>;
 
-// export const addCard = (location: Vector): BoardActions.AddCardAction => ({
-//     type: 'AD_CARD',
-//     location
-// });
+export const addCard = (location: Vector): AddCardAction => ({
+  type: 'AD_CARD',
+  location
+});
 
 // export const removeCards = (): BoardActions.RemoveCardsAction => ({
 //     type: 'REMOVE_CARDS'
