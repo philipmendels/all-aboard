@@ -1,10 +1,11 @@
 import { Reducer } from "redux";
 import { CardsState, initialCardsState, CardData } from "../models/card";
 import { AppAction } from "../actions/actions";
-import { MoveActionItemState } from "../models/selection";
+import { MoveActionItemState, ScaleActionItemState, ScaleActionState } from "../models/selection";
 import { v4 } from "uuid";
 import { Vector } from "../models/geom/vector.model";
 import { randomText } from "../util/randomText";
+import { TransformationProps, getTransformation } from "../components/transform-tool/transform.util";
 
 const defaultCardSize = new Vector(120, 90);
 
@@ -25,15 +26,15 @@ export const cardsReducer: Reducer<CardsState, AppAction> = (prevState = initial
         }
       }
     case 'REMOVE_CARDS':
-        const selectedIds = Object.keys(action.selectedItems);
-        const byId = { ...prevState.byId };
-        selectedIds.forEach(id => {
-            delete byId[id];
-        });
-        return {
-            allIds: prevState.allIds.filter(id => !selectedIds.includes(id)),
-            byId
-        }
+      const selectedIds = Object.keys(action.selectedItems);
+      const byId = { ...prevState.byId };
+      selectedIds.forEach(id => {
+        delete byId[id];
+      });
+      return {
+        allIds: prevState.allIds.filter(id => !selectedIds.includes(id)),
+        byId
+      }
     case 'MOVE_CARDS':
       return {
         ...prevState,
@@ -51,32 +52,33 @@ export const cardsReducer: Reducer<CardsState, AppAction> = (prevState = initial
           )
         }
       }
-    // case 'SCALE_CARDS':
-    //     return {
-    //         ...prevState,
-    //         byId: {
-    //             ...prevState.byId,
-    //             ...Object.entries(selectedItems).reduce((acc, [id, selectedItem]) => {
-    //                 const selectionState = selectedItem as ScaleActionItemState;
-    //                 const card = prevState.byId[id];
-    //                 const actionState = selection.action as ScaleActionState;
-    //                 const transformationProps: TransformationProps = {
-    //                     startBounds: actionState.scaleStartBounds,
-    //                     startBoundsOffset: selectionState.startScaleBoundsOffset,
-    //                     startDimensions: selectionState.startScaleDimensions,
-    //                     handle: actionState.scaleTransformHandle,
-    //                     mouseLocation: action.location
-    //                 }
-    //                 const transformation = getTransformation(transformationProps);
-    //                 acc[id] = {
-    //                     ...card,
-    //                     location: transformation.location,
-    //                     dimensions: transformation.dimensions
-    //                 }
-    //                 return acc;
-    //             }, {})
-    //         }
-    //     }
+    case 'SCALE_CARDS':
+      const selection = action.selection;
+      return {
+        ...prevState,
+        byId: {
+          ...prevState.byId,
+          ...Object.entries(selection.items).reduce((acc, [id, selectedItem]) => {
+            const selectionState = selectedItem as ScaleActionItemState;
+            const card = prevState.byId[id];
+            const actionState = selection.action as ScaleActionState;
+            const transformationProps: TransformationProps = {
+              startBounds: actionState.scaleStartBounds,
+              startBoundsOffset: selectionState.startScaleBoundsOffset,
+              startDimensions: selectionState.startScaleDimensions,
+              handle: actionState.scaleTransformHandle,
+              mouseLocation: action.location
+            }
+            const transformation = getTransformation(transformationProps);
+            acc[id] = {
+              ...card,
+              location: transformation.location,
+              dimensions: transformation.dimensions
+            }
+            return acc;
+          }, {} as CardsState['byId'])
+        }
+      }
     //  case 'REORDER_CARD':
     //     const index = prevState.allIds.indexOf(action.id);
     //     const allIds = [...prevState.allIds];

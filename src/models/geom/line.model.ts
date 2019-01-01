@@ -34,7 +34,7 @@ export class Line implements ILine {
     return GeomUtil.isHorizontalSlope(this._slope);
   }
   public unit(): Vector {
-    return GeomUtil.slopeToVector(this._slope);
+    return Vector.fromSlope(this._slope);
   }
   public constant(): number {
     return this._constant;

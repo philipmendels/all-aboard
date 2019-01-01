@@ -6,6 +6,8 @@ import { Vector } from "../../models/geom/vector.model";
 import { isSelectionKeyDown } from "../../util/util";
 import { boardStyles } from "./board.styles";
 import { Bounds } from "../../models/geom/bounds.model";
+import { TransformTool } from "../transform-tool/transform-tool.model";
+import { TransformHandle } from "../transform-tool/transform-handle.model";
 
 export class Board extends React.Component<BoardProps, BoardComponentState> {
 
@@ -13,6 +15,8 @@ export class Board extends React.Component<BoardProps, BoardComponentState> {
   private isMouseDownOnCard = false;
   private isDraggingCard = false;
   private isMouseDownOnBoard = false;
+  private isMouseDownOnTransformHandle: boolean = false;
+  private transformTool = new TransformTool();
 
   public state = {
     isDraggingMarquee: false,
@@ -26,6 +30,13 @@ export class Board extends React.Component<BoardProps, BoardComponentState> {
       top: marquee.top() + 'px',
       width: marquee.width() + 'px',
       height: marquee.height() + 'px'
+    }
+    const transformToolBounds = this.getTransformToolBounds();
+    const transformToolStyle = {
+      left: transformToolBounds.left() + 'px',
+      top: transformToolBounds.top() + 'px',
+      width: transformToolBounds.width() + 'px',
+      height: transformToolBounds.height() + 'px'
     }
     const { cards } = this.props;
     return (
@@ -51,6 +62,26 @@ export class Board extends React.Component<BoardProps, BoardComponentState> {
           ))
         }
         {this.state.isDraggingMarquee && <div className={boardStyles.marqueeClass} style={marqueeStyle} />}
+        {this.getSelectedCards().length > 0 &&
+          <div className={boardStyles.transformToolClass} style={transformToolStyle}>
+            {
+              this.transformTool.handles.map((handle, index) => {
+                const handleStyle = {
+                  left: handle.getStyleLeft(),
+                  top: handle.getStyleTop(),
+                  widht: handle.getSize(),
+                  height: handle.getSize(),
+                  cursor: handle.getStyleCursor()
+                }
+                return <div key={index}
+                  className={boardStyles.transformToolHandleClass}
+                  style={handleStyle}
+                  onMouseDown={e => { this.mouseDownOnHandle(e, handle) }}
+                />
+              })
+            }
+          </div>
+        }
       </div>
     );
   }
@@ -78,9 +109,9 @@ export class Board extends React.Component<BoardProps, BoardComponentState> {
         )
       })
     }
-    // else if (this.isMouseDownOnTransformHandle) {
-    //   this.props.onScaleCards(boardLocation);
-    // }
+    else if (this.isMouseDownOnTransformHandle) {
+      this.props.scaleCards(boardLocation);
+    }
   }
 
   private mouseUpOnBoard = (event: React.MouseEvent<HTMLDivElement>): void => {
@@ -135,13 +166,24 @@ export class Board extends React.Component<BoardProps, BoardComponentState> {
     this.props.startMoveCards(boardLocation);
   }
 
+  private mouseDownOnHandle(event: React.MouseEvent<HTMLDivElement>, handle: TransformHandle) {
+    event.stopPropagation();
+    this.isMouseDownOnTransformHandle = true;
+    this.props.startScaleCards(handle);
+  }
+
+  private getTransformToolBounds = (): Bounds => {
+    const selectedCardsBoundsArray = this.getSelectedCards().map(card => Bounds.fromRect(Vector.fromData(card.location), Vector.fromData(card.dimensions)));
+    return Bounds.fromShapes(selectedCardsBoundsArray);
+  }
+
   private isSelected = (card: CardData): boolean => {
     return this.props.selectedItems[card.id] !== undefined;
   }
 
-  // private getSelectedCards = (): CardData[] => {
-  //   return this.props.cards.filter(card => this.isSelected(card));
-  // }
+  private getSelectedCards = (): CardData[] => {
+    return this.props.cards.filter(card => this.isSelected(card));
+  }
 
   private isDragged = (card: CardData): boolean => {
     return this.isDraggingCard && this.isSelected(card);
@@ -163,7 +205,7 @@ export class Board extends React.Component<BoardProps, BoardComponentState> {
     this.isMouseDownOnCard = false;
     this.isDraggingCard = false;
     this.isMouseDownOnBoard = false;
-    // this.isMouseDownOnTransformHandle = false;
+    this.isMouseDownOnTransformHandle = false;
     this.setState({ isDraggingMarquee: false });
   }
 }

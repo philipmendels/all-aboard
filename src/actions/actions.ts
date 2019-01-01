@@ -1,6 +1,7 @@
 import { Vector } from "../models/geom/vector.model";
-import { SelectedItemsState } from "../models/selection";
+import { SelectedItemsState, SelectionState } from "../models/selection";
 import { CardsState } from "../models/card";
+import { TransformHandle } from "../components/transform-tool/transform-handle.model";
 
 export type AddCardAction = {
   type: 'AD_CARD',
@@ -18,10 +19,11 @@ export type StartMoveCardsAction = {
   cards: CardsState
 }
 
-// export type StartScaleCardsAction = {
-//   type: 'START_SCALE_CARDS',
-//   transformHandle: TransformHandle
-// }
+export type StartScaleCardsAction = {
+  type: 'START_SCALE_CARDS',
+  transformHandle: TransformHandle,
+  cards: CardsState
+}
 
 export type MoveCardsAction = {
   type: 'MOVE_CARDS',
@@ -29,10 +31,11 @@ export type MoveCardsAction = {
   selectedItems: SelectedItemsState
 }
 
-// export type ScaleCardsAction = {
-//   type: 'SCALE_CARDS',
-//   location: Vector
-// }
+export type ScaleCardsAction = {
+  type: 'SCALE_CARDS',
+  location: Vector,
+  selection: SelectionState
+}
 
 // export type ReorderCardAction = {
 //   type: 'REORDER_CARD',
@@ -61,5 +64,7 @@ export type AppAction =
   DeselectCardAction |
   ClearSelectionAction |
   StartMoveCardsAction |
-  MoveCardsAction;
+  MoveCardsAction |
+  StartScaleCardsAction |
+  ScaleCardsAction;
 

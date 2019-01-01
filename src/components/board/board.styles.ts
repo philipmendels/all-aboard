@@ -14,7 +14,26 @@ const marqueeClass = style({
   position: 'absolute'
 });
 
+const transformToolClass = style({
+  position: 'absolute',
+  boxSizing: 'border-box',
+  pointerEvents: 'none',
+  zIndex: 2,
+  border: '1px solid #5599DD',
+});
+
+const transformToolHandleClass = style({
+  pointerEvents: 'auto',
+  position: 'absolute',
+  width: '10px',
+  height: '10px',
+  borderRadius: '50%',
+  backgroundColor: '#5599DD'
+});
+
 export const boardStyles = {
   rootClass,
   marqueeClass,
+  transformToolClass,
+  transformToolHandleClass
 }

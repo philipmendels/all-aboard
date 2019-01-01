@@ -14,18 +14,6 @@ const mapStateToProps = (state: BoardState): BoardStateProps => ({
 
 const mapDispatchToProps = (dispatch: Dispatch<AppAction>): BoardDispatchProps => {
   return bindActionCreators(BoardActionCreators, dispatch);
-  // return {
-  //   // onAddCard: boundActionCreators.addCard,
-  //   // onRemoveCards: boundActionCreators.removeCards,
-  //   startMoveCards: boundActionCreators.startMoveCards,
-  //   // onStartScaleCards: boundActionCreators.startScaleCards,
-  //   moveCards: boundActionCreators.moveCards,
-  //   // onScaleCards: boundActionCreators.scaleCards,
-  //   selectCards: boundActionCreators.selectCards,
-  //   deselectCard: boundActionCreators.deselectCard,
-  //   clearSelection: boundActionCreators.clearSelection,
-  //   // onReorder: boundActionCreators.reorderCard
-  // }
 }
 
 export const BoardContainer = connect(mapStateToProps, mapDispatchToProps)(Board);

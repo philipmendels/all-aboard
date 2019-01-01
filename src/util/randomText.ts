@@ -1,10 +1,17 @@
+const containers = [
+  'broodje',
+  'puntzak',
+  'bakje',
+  'schotel',
+  'frietje',
+];
+
 const snacks = [
   'smulrol',
   'sitostick',
   'chickenwings',
   'vlammetjes',
   'shoarmarol',
-  'friet',
   'berenklauw',
   'pikanto',
   'falafel',
@@ -30,16 +37,8 @@ const snacks = [
   'lihanboutje',
   'pikanto',
   'sjaslick',
-  'braadworst'
-
-];
-
-const containers = [
-  'broodje',
-  'puntzak',
-  'bakje',
-  'schotel',
-  'frietje',
+  'braadworst',
+  'groentekroket',
 ];
 
 const sauces = [
@@ -55,7 +54,9 @@ const sauces = [
   'chilisaus',
   'sambal',
   'bbq-saus',
-  'knoflooksaus'
+  'knoflooksaus',
+  'mad-saus',
+  'appelmoes',
 ];
 
 const randomFromArray = (arr:any[]) => arr[Math.floor(Math.random() * arr.length)];

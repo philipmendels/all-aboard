@@ -2,6 +2,7 @@ import { Orientation } from './direction.enum';
 import { Segment } from './segment.model';
 import { IShape } from './shape.interface';
 import { Vector } from './vector.model';
+import * as GeomUtil from './geom.util';
 
 export type BoundsData = {
   left: number,
@@ -19,6 +20,17 @@ export class Bounds implements IShape {
       location.x + dimensions.x,
       location.y + dimensions.y
     )
+  }
+
+  public static fromShapes = (shapes: IShape[]): Bounds => {
+    if (!shapes || !shapes.length) {
+      return new Bounds(0, 0, 0, 0);
+    }
+    const minLeft = GeomUtil.arrayMin(shapes.map(shape => shape.left()));
+    const minTop = GeomUtil.arrayMin(shapes.map(shape => shape.top()));
+    const maxRight = GeomUtil.arrayMax(shapes.map(shape => shape.right()));
+    const maxBottom = GeomUtil.arrayMax(shapes.map(shape => shape.bottom()));
+    return new Bounds(minLeft, minTop, maxRight, maxBottom);
   }
 
   constructor(

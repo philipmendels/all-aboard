@@ -11,6 +11,40 @@ export class Vector {
     return new Vector(data.x, data.y);
   }
 
+  public static fromAngleDeg = (deg: number, fixError: boolean = true): Vector => {
+    if (fixError) {
+      deg = GeomUtil.normalizeDeg(deg);
+      if (GeomUtil.equals(Math.abs(deg), 90)) {
+        return new Vector(0, Math.sign(deg));
+      } else if (GeomUtil.equals(deg, 180)) {
+        return new Vector(-1, 0);
+      }
+    }
+    const rad = GeomUtil.degToRad(deg);
+    return Vector.fromAngleRad(rad, false);
+  }
+
+  public static fromAngleRad = (rad: number, fixError: boolean = true): Vector => {
+    if (fixError) {
+      rad = GeomUtil.normalizeRad(rad);
+      if (GeomUtil.equals(Math.abs(rad), GeomUtil.HALF_PI)) {
+        return new Vector(0, Math.sign(rad));
+      } else if (GeomUtil.equals(rad, Math.PI)) {
+        return new Vector(-1, 0);
+      }
+    }
+    return new Vector(Math.cos(rad), Math.sin(rad));
+  }
+
+  public static fromSlope = (slope: number): Vector => {
+    if (slope === undefined || slope === Infinity) {
+      return new Vector(0, 1);
+    } else if (slope === -Infinity) {
+      return new Vector(0, -1);
+    }
+    return new Vector(1, 1 * slope).normalize();
+  }
+
   constructor(readonly x: number, readonly y: number) { };
 
   public toData(): VectorData {
@@ -89,12 +123,12 @@ export class Vector {
     const y = this.y * v.x + this.x * v.y;
     return new Vector(x, y);
   }
-  public rotateRad(rad: number): Vector {
-    return this.rotateV(GeomUtil.angleRadToVector(rad));
-  }
-  public rotateDeg(deg: number): Vector {
-    return this.rotateV(GeomUtil.angleDegToVector(deg));
-  }
+  // public rotateRad(rad: number): Vector {
+  //   return this.rotateV(GeomUtil.angleRadToVector(rad));
+  // }
+  // public rotateDeg(deg: number): Vector {
+  //   return this.rotateV(GeomUtil.angleDegToVector(deg));
+  // }
   public reverse(): Vector {
     return this.multiply(-1);
   }

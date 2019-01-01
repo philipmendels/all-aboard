@@ -1,5 +1,7 @@
 import { initialCardsState, CardsState } from "./card";
 import { SelectedItem, initialSelectionState } from "./selection";
+import { Bounds } from "./geom/bounds.model";
+import { TransformHandle } from "../components/transform-tool/transform-handle.model";
 
 export type BoardState = {
   cards: CardsState;
@@ -12,14 +14,14 @@ export const initialBoardState: BoardState = {
 }
 
 type SelectionState = {
-  // action: {} | ScaleActionState,
+  action: {} | ScaleActionState,
   items: SelectedItemsState
 }
 
-// type ScaleActionState = {
-//   scaleStartBounds: Bounds,
-//   scaleTransformHandle: TransformHandle
-// }
+type ScaleActionState = {
+  scaleStartBounds: Bounds,
+  scaleTransformHandle: TransformHandle
+}
 
 type SelectedItemsState = {
   [id: string]: SelectedItem
