@@ -79,15 +79,15 @@ export const cardsReducer: Reducer<CardsState, AppAction> = (prevState = initial
           }, {} as CardsState['byId'])
         }
       }
-    //  case 'REORDER_CARD':
-    //     const index = prevState.allIds.indexOf(action.id);
-    //     const allIds = [...prevState.allIds];
-    //     const [removed] = allIds.splice(index, 1);
-    //     allIds.splice(action.toIndex, 0, removed);
-    //     return {
-    //         ...prevState,
-    //         allIds
-    //     }
+     case 'REORDER_CARD':
+        const index = prevState.allIds.indexOf(action.id);
+        const allIds = [...prevState.allIds];
+        const [removed] = allIds.splice(index, 1);
+        allIds.splice(action.toIndex, 0, removed);
+        return {
+            ...prevState,
+            allIds
+        }
     default:
       return prevState;
   }

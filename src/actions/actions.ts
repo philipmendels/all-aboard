@@ -37,11 +37,11 @@ export type ScaleCardsAction = {
   selection: SelectionState
 }
 
-// export type ReorderCardAction = {
-//   type: 'REORDER_CARD',
-//   id: string,
-//   toIndex: number
-// }
+export type ReorderCardAction = {
+  type: 'REORDER_CARD',
+  id: string,
+  toIndex: number
+}
 
 export type SelectCardsAction = {
   type: 'SELECT_CARDS',
@@ -66,5 +66,6 @@ export type AppAction =
   StartMoveCardsAction |
   MoveCardsAction |
   StartScaleCardsAction |
-  ScaleCardsAction;
+  ScaleCardsAction |
+  ReorderCardAction;
 

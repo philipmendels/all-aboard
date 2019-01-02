@@ -11,6 +11,8 @@ import { TransformHandle } from "../transform-tool/transform-handle.model";
 
 export class Board extends React.Component<BoardProps, BoardComponentState> {
 
+  private boardRef: React.RefObject<HTMLDivElement>;
+
   private marqueeStartLocation?: Vector;
   private isMouseDownOnCard = false;
   private isDraggingCard = false;
@@ -18,9 +20,13 @@ export class Board extends React.Component<BoardProps, BoardComponentState> {
   private isMouseDownOnTransformHandle: boolean = false;
   private transformTool = new TransformTool();
 
-  public state = {
-    isDraggingMarquee: false,
-    marquee: new Bounds(0, 0, 0, 0)
+  public constructor(props: BoardProps) {
+    super(props);
+    this.boardRef = React.createRef();
+    this.state = {
+      isDraggingMarquee: false,
+      marquee: new Bounds(0, 0, 0, 0)
+    }
   }
 
   public render() {
@@ -41,6 +47,7 @@ export class Board extends React.Component<BoardProps, BoardComponentState> {
     const { cards } = this.props;
     return (
       <div
+        ref={this.boardRef}
         className={boardStyles.rootClass}
         tabIndex={0}
         onMouseDown={this.mouseDownOnBoard}
@@ -89,11 +96,11 @@ export class Board extends React.Component<BoardProps, BoardComponentState> {
   private mouseDownOnBoard = (event: React.MouseEvent<HTMLDivElement>): void => {
     this.clearSelection();
     this.isMouseDownOnBoard = true;
-    this.marqueeStartLocation = new Vector(event.clientX, event.clientY);
+    this.marqueeStartLocation = new Vector(event.clientX, event.clientY).subtract(this.getOffset());
   }
 
   private mouseMoveOnBoard = (event: React.MouseEvent<HTMLDivElement>): void => {
-    const boardLocation = new Vector(event.clientX, event.clientY);
+    const boardLocation = new Vector(event.clientX, event.clientY).subtract(this.getOffset());
     if (this.isMouseDownOnCard) {
       this.isDraggingCard = true;
       this.props.moveCards(boardLocation);
@@ -112,6 +119,7 @@ export class Board extends React.Component<BoardProps, BoardComponentState> {
     else if (this.isMouseDownOnTransformHandle) {
       this.props.scaleCards(boardLocation);
     }
+    event.stopPropagation();
   }
 
   private mouseUpOnBoard = (event: React.MouseEvent<HTMLDivElement>): void => {
@@ -133,7 +141,7 @@ export class Board extends React.Component<BoardProps, BoardComponentState> {
   }
 
   private dblclickBoard = (event: React.MouseEvent<HTMLDivElement>): void => {
-    this.props.addCard(new Vector(event.clientX, event.clientY));
+    this.props.addCard(new Vector(event.nativeEvent.offsetX, event.nativeEvent.offsetY));
   }
 
   private keyDownOnBoard = (event: React.KeyboardEvent<HTMLDivElement>): void => {
@@ -148,7 +156,7 @@ export class Board extends React.Component<BoardProps, BoardComponentState> {
   private mouseDownOnCard = (event: React.MouseEvent<HTMLDivElement>, mouseDownCard: CardData): void => {
     event.stopPropagation();
     this.isMouseDownOnCard = true;
-    const boardLocation = new Vector(event.clientX, event.clientY);
+    const boardLocation = new Vector(event.clientX, event.clientY).subtract(this.getOffset());
 
     if (isSelectionKeyDown(event)) {
       if (!this.isSelected(mouseDownCard)) {
@@ -207,5 +215,13 @@ export class Board extends React.Component<BoardProps, BoardComponentState> {
     this.isMouseDownOnBoard = false;
     this.isMouseDownOnTransformHandle = false;
     this.setState({ isDraggingMarquee: false });
+  }
+
+  private getOffset = (): Vector => {
+    if (!this.boardRef.current) {
+      return new Vector(0, 0);
+    }
+    const rect = this.boardRef.current.getBoundingClientRect();
+    return new Vector(rect.left, rect.top);
   }
 }

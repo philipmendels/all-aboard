@@ -2,14 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
 import store from './store';
-import { BoardContainer } from './components/board/board-container';
 import { Provider } from 'react-redux';
 import './index.styles';
 import { forceRenderStyles } from 'typestyle';
+import { Main } from './components/main/main';
 
 ReactDOM.render(
   <Provider store={store}>
-    <BoardContainer />
+    <Main />
   </Provider>,
   document.getElementById('root')
 );

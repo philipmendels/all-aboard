@@ -21,7 +21,6 @@ export type BoardDispatchProps = {
   selectCards: (ids: string[]) => void,
   deselectCard: (id: string) => void,
   clearSelection: () => void,
-  // onReorder:(id:string, toIndex:number) => void
 };
 
 export type BoardProps = BoardDispatchProps & BoardStateProps;
