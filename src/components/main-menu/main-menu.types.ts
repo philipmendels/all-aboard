@@ -1,6 +1,11 @@
+export type MainMenuStateProps = {
+  canUndo: boolean;
+  canRedo: boolean;
+};
+
 export type MainMenuDispatchProps = {
   undo:() => void;
   redo:() => void;
 };
 
-export type MainMenuProps = MainMenuDispatchProps;
+export type MainMenuProps = MainMenuStateProps & MainMenuDispatchProps;
