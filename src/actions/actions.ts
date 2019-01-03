@@ -25,14 +25,30 @@ export type StartScaleCardsAction = {
   cards: CardsState
 }
 
+export const MOVE_CARDS = 'MOVE_CARDS';
+
 export type MoveCardsAction = {
-  type: 'MOVE_CARDS',
+  type: typeof MOVE_CARDS,
   location: Vector,
   selectedItems: SelectedItemsState
 }
 
+export type StopMoveCardsAction = {
+  type: 'STOP_MOVE_CARDS',
+  location: Vector,
+  selectedItems: SelectedItemsState
+}
+
+export const SCALE_CARDS = 'SCALE_CARDS';
+
 export type ScaleCardsAction = {
-  type: 'SCALE_CARDS',
+  type: typeof SCALE_CARDS,
+  location: Vector,
+  selection: SelectionState
+}
+
+export type StopScaleCardsAction = {
+  type: 'STOP_SCALE_CARDS',
   location: Vector,
   selection: SelectionState
 }
@@ -65,7 +81,9 @@ export type AppAction =
   ClearSelectionAction |
   StartMoveCardsAction |
   MoveCardsAction |
+  StopMoveCardsAction |
   StartScaleCardsAction |
   ScaleCardsAction |
+  StopScaleCardsAction |
   ReorderCardAction;
 

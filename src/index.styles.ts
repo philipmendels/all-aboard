@@ -8,5 +8,7 @@ cssRule('html, body', {
   width: '100%',
   padding: 0,
   margin: 0,
+  userSelect: 'none',
+  "-moz-user-select": 'none',
   fontFamily: 'Lato, sans-serif',
 });

@@ -5,7 +5,8 @@ const rootClass = style({
   position: 'relative',
   width: '100vw',
   height: '100vh',
-  outline: 'none'
+  outline: 'none',
+  overflow: 'hidden',
 });
 
 const marqueeClass = style({

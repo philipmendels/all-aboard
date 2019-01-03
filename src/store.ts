@@ -14,7 +14,9 @@ if (process.env.NODE_ENV === 'development') {
   const devToolsExtension = (window as any).__REDUX_DEVTOOLS_EXTENSION__;
 
   if (typeof devToolsExtension === 'function') {
-    enhancers.push(devToolsExtension());
+    enhancers.push(devToolsExtension({
+      actionsBlacklist: ["^MOVE_CARDS$", "^SCALE_CARDS$"]
+    }));
   }
 }
 

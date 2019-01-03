@@ -5,6 +5,7 @@ import React from "react";
 
 export const Card: React.SFC<CardComponentProps> = ({ location, dimensions, isSelected, text, onMouseDown }) => (
   <div 
+    draggable={false}
     className={cardClass}
     style={{
       left: px(location.x),

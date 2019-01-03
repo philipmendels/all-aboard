@@ -9,7 +9,7 @@ import { Layers } from "./layers";
 
 const mapStateToProps = (state: BoardState): LayersStateProps => ({
   selectedItems: state.selection.items,
-  cards: getAllCards(state.cards)
+  cards: getAllCards(state.cards.present)
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<AppAction>): LayersDispatchProps => {

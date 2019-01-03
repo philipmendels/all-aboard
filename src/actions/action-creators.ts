@@ -1,7 +1,9 @@
 import { Vector } from "../models/geom/vector.model";
 import {
   StartMoveCardsAction, MoveCardsAction, SelectCardsAction,
-  DeselectCardAction, ClearSelectionAction, AppAction, AddCardAction, RemoveCardsAction, StartScaleCardsAction, ScaleCardsAction, ReorderCardAction
+  DeselectCardAction, ClearSelectionAction, AppAction, 
+  AddCardAction, RemoveCardsAction, StartScaleCardsAction, 
+  ScaleCardsAction, ReorderCardAction, StopMoveCardsAction, StopScaleCardsAction
 } from "./actions";
 import { ThunkAction } from 'redux-thunk';
 import { BoardState } from "../models/board";
@@ -24,19 +26,26 @@ export const startMoveCards = (location: Vector): TypedThunkAction<StartMoveCard
   (dispatch, getState) => dispatch({
     type: 'START_MOVE_CARDS',
     location,
-    cards: getState().cards,
+    cards: getState().cards.present,
   });
 
 export const startScaleCards = (transformHandle: TransformHandle): TypedThunkAction<StartScaleCardsAction> =>
   (dispatch, getState) => dispatch({
     type: 'START_SCALE_CARDS',
     transformHandle,
-    cards: getState().cards,
+    cards: getState().cards.present,
   });
 
 export const moveCards = (location: Vector): TypedThunkAction<MoveCardsAction> =>
   (dispatch, getState) => dispatch({
     type: 'MOVE_CARDS',
+    location,
+    selectedItems: getState().selection.items
+  });
+
+export const stopMoveCards = (location: Vector): TypedThunkAction<StopMoveCardsAction> =>
+  (dispatch, getState) => dispatch({
+    type: 'STOP_MOVE_CARDS',
     location,
     selectedItems: getState().selection.items
   });
@@ -50,6 +59,13 @@ export const reorderCard = (id: string, toIndex: number): ReorderCardAction => (
 export const scaleCards = (location: Vector): TypedThunkAction<ScaleCardsAction> =>
   (dispatch, getState) => dispatch({
     type: 'SCALE_CARDS',
+    location,
+    selection: getState().selection
+  });
+
+export const stopScaleCards = (location: Vector): TypedThunkAction<StopScaleCardsAction> =>
+  (dispatch, getState) => dispatch({
+    type: 'STOP_SCALE_CARDS',
     location,
     selection: getState().selection
   });

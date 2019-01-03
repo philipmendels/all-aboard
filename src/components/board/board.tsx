@@ -47,6 +47,7 @@ export class Board extends React.Component<BoardProps, BoardComponentState> {
     const { cards } = this.props;
     return (
       <div
+        draggable={false}
         ref={this.boardRef}
         className={boardStyles.rootClass}
         tabIndex={0}
@@ -80,11 +81,15 @@ export class Board extends React.Component<BoardProps, BoardComponentState> {
                   height: handle.getSize(),
                   cursor: handle.getStyleCursor()
                 }
-                return <div key={index}
-                  className={boardStyles.transformToolHandleClass}
-                  style={handleStyle}
-                  onMouseDown={e => { this.mouseDownOnHandle(e, handle) }}
-                />
+                return (
+                  <div
+                    draggable={false}
+                    key={index}
+                    className={boardStyles.transformToolHandleClass}
+                    style={handleStyle}
+                    onMouseDown={e => { this.mouseDownOnHandle(e, handle) }}
+                  />
+                )
               })
             }
           </div>
@@ -94,7 +99,9 @@ export class Board extends React.Component<BoardProps, BoardComponentState> {
   }
 
   private mouseDownOnBoard = (event: React.MouseEvent<HTMLDivElement>): void => {
-    this.clearSelection();
+    if(!this.props.selectCards.length) {
+      this.clearSelection();
+    }
     this.isMouseDownOnBoard = true;
     this.marqueeStartLocation = new Vector(event.clientX, event.clientY).subtract(this.getOffset());
   }
@@ -133,11 +140,11 @@ export class Board extends React.Component<BoardProps, BoardComponentState> {
 
       this.props.selectCards(cardIdsToSelect);
     }
-    this.clearMouseStates();
+    this.clearMouseStates(event);
   }
 
   private mouseLeaveBoard = (event: React.MouseEvent<HTMLDivElement>): void => {
-    this.clearMouseStates();
+    this.clearMouseStates(event);
   }
 
   private dblclickBoard = (event: React.MouseEvent<HTMLDivElement>): void => {
@@ -209,10 +216,18 @@ export class Board extends React.Component<BoardProps, BoardComponentState> {
     this.props.clearSelection();
   }
 
-  private clearMouseStates = (): void => {
+  private clearMouseStates = (event: React.MouseEvent<HTMLDivElement>): void => {
     this.isMouseDownOnCard = false;
+    if(this.isDraggingCard) {
+      const boardLocation = new Vector(event.clientX, event.clientY).subtract(this.getOffset());
+      this.props.stopMoveCards(boardLocation);
+    }
     this.isDraggingCard = false;
     this.isMouseDownOnBoard = false;
+    if(this.isMouseDownOnTransformHandle) {
+      const boardLocation = new Vector(event.clientX, event.clientY).subtract(this.getOffset());
+      this.props.stopScaleCards(boardLocation);
+    }
     this.isMouseDownOnTransformHandle = false;
     this.setState({ isDraggingMarquee: false });
   }

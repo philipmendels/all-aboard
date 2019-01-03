@@ -36,6 +36,7 @@ export const cardsReducer: Reducer<CardsState, AppAction> = (prevState = initial
         byId
       }
     case 'MOVE_CARDS':
+    case 'STOP_MOVE_CARDS':
       return {
         ...prevState,
         byId: {
@@ -53,6 +54,7 @@ export const cardsReducer: Reducer<CardsState, AppAction> = (prevState = initial
         }
       }
     case 'SCALE_CARDS':
+    case 'STOP_SCALE_CARDS':
       const selection = action.selection;
       return {
         ...prevState,

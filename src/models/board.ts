@@ -2,16 +2,17 @@ import { initialCardsState, CardsState } from "./card";
 import { SelectedItem, initialSelectionState } from "./selection";
 import { Bounds } from "./geom/bounds.model";
 import { TransformHandle } from "../components/transform-tool/transform-handle.model";
+import { StateWithHistory } from "redux-undo";
 
 export type BoardState = {
-  cards: CardsState;
+  cards: StateWithHistory<CardsState>;
   selection: SelectionState;
 }
 
-export const initialBoardState: BoardState = {
-  cards: initialCardsState,
-  selection: initialSelectionState
-}
+// export const initialBoardState: BoardState = {
+//   cards: initialCardsState,
+//   selection: initialSelectionState
+// }
 
 type SelectionState = {
   action: {} | ScaleActionState,
