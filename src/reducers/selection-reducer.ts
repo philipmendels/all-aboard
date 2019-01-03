@@ -80,5 +80,5 @@ const getCardsBounds = (cards: CardData[]) =>
 const getSelectedCards = (state: SelectedItemsState, cardsState: CardsState): CardData[] =>
   getCardsArray(cardsState).filter(card => isSelectedCard(state, card));
 
-const isSelectedCard = (state: SelectedItemsState, card: CardData): boolean =>
+export const isSelectedCard = (state: SelectedItemsState, card: CardData): boolean =>
   state[card.id] !== undefined;

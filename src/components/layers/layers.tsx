@@ -2,6 +2,8 @@ import * as React from 'react';
 import { DragDropContext, Draggable, Droppable, DropResult } from 'react-beautiful-dnd';
 import { LayersProps } from './layers.types';
 import { layersStyles } from './layers.styles';
+import { FaGripVertical } from 'react-icons/fa';
+import { isSelectedCard } from '../../reducers/selection-reducer';
 
 export const Layers: React.SFC<LayersProps> = props => {
 
@@ -29,8 +31,8 @@ export const Layers: React.SFC<LayersProps> = props => {
                       {...provided2.dragHandleProps}
                       style={provided2.draggableProps.style as any}
                     >
-                      <span className='text-icon'>T</span>
-                      <span className='text'>{card.text}</span>
+                      <FaGripVertical className="icon"/>
+                      <span style={{fontWeight: isSelectedCard(props.selectedItems, card) ? 'bolder' : undefined}} className='text'>{card.text}</span>
                     </div>
                   )}
                 </Draggable>
