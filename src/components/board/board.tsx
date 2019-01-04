@@ -3,7 +3,7 @@ import { BoardProps, BoardComponentState } from "./board.types";
 import { Card } from "../card/card";
 import { CardData } from "../../models/card";
 import { Vector } from "../../models/geom/vector.model";
-import { isSelectionKeyDown } from "../../util/util";
+import { isSelectionKeyDown, handleSelection } from "../../util/util";
 import { boardStyles } from "./board.styles";
 import { Bounds } from "../../models/geom/bounds.model";
 import { TransformTool } from "../transform-tool/transform-tool.model";
@@ -171,18 +171,11 @@ export class Board extends React.Component<BoardProps, BoardComponentState> {
     this.isMouseDownOnCard = true;
     const boardLocation = new Vector(event.clientX, event.clientY).subtract(this.getOffset());
 
-    if (isSelectionKeyDown(event)) {
-      if (!this.isSelected(mouseDownCard)) {
-        this.selectCard(mouseDownCard);
-      } else {
-        this.deselectCard(mouseDownCard);
-      }
-    } else {
-      if (!this.isSelected(mouseDownCard)) {
-        this.clearSelection();
-        this.selectCard(mouseDownCard);
-      }
-    }
+    handleSelection(
+      event, mouseDownCard, this.isSelected(mouseDownCard), this.props.clearSelection, 
+      () => this.props.selectCards([mouseDownCard.id]), 
+      () => this.props.deselectCard(mouseDownCard.id)
+    );
 
     this.props.startMoveCards(boardLocation);
   }
