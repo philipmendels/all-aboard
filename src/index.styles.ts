@@ -14,6 +14,8 @@ cssRule('html, body', {
   fontFamily: 'Lato, sans-serif',
 });
 
-cssRule(':focus', {
-  outline: `2px ${Colors.HIGHLIGHT}`
+cssRule('*:focus', {
+  outlineColor: Colors.HIGHLIGHT,
+  outlineWidth: '2px',
+  outlineStyle: 'solid'
 });
