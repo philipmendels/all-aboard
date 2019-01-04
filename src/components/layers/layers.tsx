@@ -21,7 +21,11 @@ export const Layers: React.SFC<LayersProps> = props => {
     <DragDropContext onDragEnd={onDragEnd}>
       <Droppable droppableId="droppable">
         {(provided, snapshot) => (
-          <div className={layersStyles.root} ref={provided.innerRef}>
+          <div
+            className={layersStyles.root}
+            ref={provided.innerRef}
+            onMouseDown={() => Object.keys(props.selectedItems).length && props.clearSelection()}
+          >
             {
               props.cards.slice().reverse().map((card, index) =>
                 <Draggable key={card.id} draggableId={card.id} index={index}>
@@ -36,11 +40,18 @@ export const Layers: React.SFC<LayersProps> = props => {
                         color: isSelectedCard(props.selectedItems, card) ? 'white' : undefined,
                         outline: props.hoveredCardId === card.id || isSelectedCard(props.selectedItems, card) ? `1px solid ${Colors.HIGHLIGHT}` : 'none',
                       }}
+                      onMouseDown={(e) => { 
+                        e.stopPropagation();
+                        if(props.selectedItems[card.id] === undefined){
+                          props.selectCards([card.id]); 
+                        }
+                        provided2.dragHandleProps && provided2.dragHandleProps.onMouseDown(e); 
+                      }}
                       onMouseEnter={() => props.mouseEnterCard(card.id)}
                       onMouseLeave={() => props.mouseLeaveCard()}
                     >
                       <FaGripVertical className="icon" />
-                      <span style={{fontWeight: props.hoveredCardId === card.id && isSelectedCard(props.selectedItems, card) ? 900 : undefined}} className='text'>{card.text}</span>
+                      <span style={{ fontWeight: props.hoveredCardId === card.id && isSelectedCard(props.selectedItems, card) ? 900 : undefined }} className='text'>{card.text}</span>
                     </div>
                   )}
                 </Draggable>
