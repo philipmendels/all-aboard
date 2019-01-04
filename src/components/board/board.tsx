@@ -73,7 +73,7 @@ export class Board extends React.Component<BoardProps, BoardComponentState> {
           ))
         }
         {this.state.isDraggingMarquee && <div className={boardStyles.marqueeClass} style={marqueeStyle} />}
-        {this.getSelectedCards().length > 0 &&
+        {this.getSelectedCards().length > 0 && !this.isDraggingCard &&
           <div className={boardStyles.transformToolClass} style={transformToolStyle}>
             {
               this.transformTool.handles.map((handle, index) => {

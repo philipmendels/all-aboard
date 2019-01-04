@@ -13,7 +13,8 @@ const rootClass = style({
 const marqueeClass = style({
   backgroundColor: 'transparent',
   border: '1px dashed black',
-  position: 'absolute'
+  position: 'absolute',
+  pointerEvents: 'none',
 });
 
 const transformToolClass = style({
