@@ -1,4 +1,5 @@
 import { style } from "typestyle";
+import { Colors } from "../../styles/styles";
 
 const root = style({
   width: '100%',
@@ -9,18 +10,13 @@ const root = style({
 
 const layer = style({
   height: '30px',
+  minWidth: 0,
   padding: '0 10px 0 10px',
-  borderBottom: '1px solid #ddd',
+  border: '1px solid transparent',
   backgroundColor: 'transparent',
   display: 'flex',
   alignItems: 'center',
   '$nest': {
-    '&:hover': {
-      backgroundColor: 'lightgray',
-      '.icon': {
-        color: 'white',
-      },
-    },
     '.icon': {
       color: 'lightgray',
       fontSize: '10px',

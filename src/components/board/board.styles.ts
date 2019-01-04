@@ -1,4 +1,5 @@
 import { style } from "typestyle";
+import { Colors } from "../../styles/styles";
 
 const rootClass = style({
   backgroundColor: 'white',
@@ -20,7 +21,7 @@ const transformToolClass = style({
   boxSizing: 'border-box',
   pointerEvents: 'none',
   zIndex: 2,
-  border: '1px solid #5599DD',
+  border: `1px solid ${Colors.HIGHLIGHT}`,
 });
 
 const transformToolHandleClass = style({
@@ -29,7 +30,7 @@ const transformToolHandleClass = style({
   width: '10px',
   height: '10px',
   borderRadius: '50%',
-  backgroundColor: '#5599DD'
+  backgroundColor: Colors.HIGHLIGHT
 });
 
 export const boardStyles = {

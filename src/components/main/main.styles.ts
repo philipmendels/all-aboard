@@ -9,7 +9,7 @@ const root = style({
 
 const sidePanel = style({
   flex: '0 0 200px',
-  overflow: 'hidden',
+  minWidth: 0,
   position: 'relative',
   display: 'flex',
   flexDirection: 'column',
@@ -28,6 +28,7 @@ const mainMenu = style({
 
 const layers = style({
   flex: 1,
+  minWidth: 0,
   position: 'relative',
 });
 

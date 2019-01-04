@@ -3,6 +3,8 @@ import { SelectedItem } from "../../models/selection";
 
 export type LayersDispatchProps = {
   reorderCard: (id: string, toIndex: number) => void;
+  mouseEnterCard: (id: string) => void;
+  mouseLeaveCard: () => void;
 };
 
 export type LayersStateProps = {
@@ -10,6 +12,7 @@ export type LayersStateProps = {
   selectedItems: {
     [id: string]: SelectedItem;
   };
+  hoveredCardId: string | undefined;
 };
 
 export type LayersProps = LayersDispatchProps & LayersStateProps;

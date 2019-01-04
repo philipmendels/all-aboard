@@ -4,16 +4,17 @@ import { BoardState } from "../../models/board";
 import { getAllCards } from "../../reducers/cards-reducer";
 import { AppAction } from "../../actions/actions";
 import { bindActionCreators, Dispatch } from "redux";
-import { reorderCard } from "../../actions/action-creators";
+import { reorderCard, mouseEnterCard, mouseLeaveCard } from "../../actions/action-creators";
 import { Layers } from "./layers";
 
 const mapStateToProps = (state: BoardState): LayersStateProps => ({
   selectedItems: state.selection.items,
-  cards: getAllCards(state.cards.present)
+  cards: getAllCards(state.cards.present),
+  hoveredCardId: state.ui.hoveredCardId
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<AppAction>): LayersDispatchProps => {
-  return bindActionCreators({reorderCard}, dispatch);
+  return bindActionCreators({ reorderCard, mouseEnterCard, mouseLeaveCard }, dispatch);
 };
 
 export const LayersContainer = connect(mapStateToProps, mapDispatchToProps)(Layers);

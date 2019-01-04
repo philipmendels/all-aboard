@@ -64,8 +64,11 @@ export class Board extends React.Component<BoardProps, BoardComponentState> {
               key={card.id}
               {...card}
               onMouseDown={e => { this.mouseDownOnCard(e, card) }}
+              onMouseLeave={e => !this.isMouseDownOnCard && !this.isMouseDownOnTransformHandle && this.props.mouseLeaveCard()}
+              onMouseEnter={e => !this.isMouseDownOnCard && !this.isMouseDownOnTransformHandle && this.props.mouseEnterCard(card.id)}
               isDragged={this.isDragged(card)}
               isSelected={this.isSelected(card)}
+              isHovered={this.props.hoveredCardId === card.id}
             />
           ))
         }
@@ -99,7 +102,7 @@ export class Board extends React.Component<BoardProps, BoardComponentState> {
   }
 
   private mouseDownOnBoard = (event: React.MouseEvent<HTMLDivElement>): void => {
-    if(!this.props.selectCards.length) {
+    if (Object.keys(this.props.selectedItems).length) {
       this.clearSelection();
     }
     this.isMouseDownOnBoard = true;
@@ -138,7 +141,10 @@ export class Board extends React.Component<BoardProps, BoardComponentState> {
         })
         .map(card => card.id);
 
-      this.props.selectCards(cardIdsToSelect);
+      if (cardIdsToSelect.length) {
+        this.props.selectCards(cardIdsToSelect);
+      }
+
     }
     this.clearMouseStates(event);
   }
@@ -218,13 +224,13 @@ export class Board extends React.Component<BoardProps, BoardComponentState> {
 
   private clearMouseStates = (event: React.MouseEvent<HTMLDivElement>): void => {
     this.isMouseDownOnCard = false;
-    if(this.isDraggingCard) {
+    if (this.isDraggingCard) {
       const boardLocation = new Vector(event.clientX, event.clientY).subtract(this.getOffset());
       this.props.stopMoveCards(boardLocation);
     }
     this.isDraggingCard = false;
     this.isMouseDownOnBoard = false;
-    if(this.isMouseDownOnTransformHandle) {
+    if (this.isMouseDownOnTransformHandle) {
       const boardLocation = new Vector(event.clientX, event.clientY).subtract(this.getOffset());
       this.props.stopScaleCards(boardLocation);
     }

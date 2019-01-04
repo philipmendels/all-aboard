@@ -9,6 +9,7 @@ export type BoardStateProps = {
   selectedItems: {
     [id: string]: SelectedItem;
   };
+  hoveredCardId?: string;
 };
 
 export type BoardDispatchProps = {
@@ -23,6 +24,8 @@ export type BoardDispatchProps = {
   selectCards: (ids: string[]) => void,
   deselectCard: (id: string) => void,
   clearSelection: () => void,
+  mouseEnterCard: (id: string) => void,
+  mouseLeaveCard: () => void
 };
 
 export type BoardProps = BoardDispatchProps & BoardStateProps;

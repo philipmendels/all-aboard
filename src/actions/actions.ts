@@ -2,6 +2,7 @@ import { Vector } from "../models/geom/vector.model";
 import { SelectedItemsState, SelectionState } from "../models/selection";
 import { CardsState } from "../models/card";
 import { TransformHandle } from "../components/transform-tool/transform-handle.model";
+import { any } from "prop-types";
 
 export type AddCardAction = {
   type: 'AD_CARD',
@@ -73,6 +74,15 @@ export type ClearSelectionAction = {
   type: 'CLEAR_SELECTION'
 }
 
+export type MouseEnterCardAction = {
+  type: 'MOUSE_ENTER_CARD';
+  id: string;
+}
+
+export type MouseLeaveCardAction = {
+  type: 'MOUSE_LEAVE_CARD';
+}
+
 export type AppAction =
   AddCardAction |
   RemoveCardsAction |
@@ -85,5 +95,6 @@ export type AppAction =
   StartScaleCardsAction |
   ScaleCardsAction |
   StopScaleCardsAction |
-  ReorderCardAction;
-
+  ReorderCardAction |
+  MouseEnterCardAction |
+  MouseLeaveCardAction;

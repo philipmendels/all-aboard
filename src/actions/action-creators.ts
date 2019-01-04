@@ -3,7 +3,8 @@ import {
   StartMoveCardsAction, MoveCardsAction, SelectCardsAction,
   DeselectCardAction, ClearSelectionAction, AppAction, 
   AddCardAction, RemoveCardsAction, StartScaleCardsAction, 
-  ScaleCardsAction, ReorderCardAction, StopMoveCardsAction, StopScaleCardsAction
+  ScaleCardsAction, ReorderCardAction, StopMoveCardsAction, 
+  StopScaleCardsAction, MouseEnterCardAction, MouseLeaveCardAction
 } from "./actions";
 import { ThunkAction } from 'redux-thunk';
 import { BoardState } from "../models/board";
@@ -82,4 +83,13 @@ export const deselectCard = (id: string): DeselectCardAction => ({
 
 export const clearSelection = (): ClearSelectionAction => ({
   type: 'CLEAR_SELECTION'
+});
+
+export const mouseEnterCard = (id:string): MouseEnterCardAction => ({
+  type: 'MOUSE_ENTER_CARD',
+  id
+});
+
+export const mouseLeaveCard = (): MouseLeaveCardAction => ({
+  type: 'MOUSE_LEAVE_CARD',
 });
